@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+import pickle
 
 app = Flask(__name__)
 
@@ -10,9 +11,9 @@ def index():
 def about():
     return render_template("about.html")
 
-@app.route("/contact")
+@app.route("/feedback")
 def contact():
-    return render_template("contact.html")
+    return render_template("feedback.html")
 
 @app.route("/service")
 def service():
@@ -26,9 +27,25 @@ def blog():
 def faq():
     return render_template("faq.html")
 
-@app.route("/dashboard")
+@app.route("/dashboard", methods = ["GET", "POST"])
 def dashboard():
-    return render_template("dashboard.html")
+    # res = None
+    # model = pickle.load(open('classifier.pkl','rb'))
+    # ferti = pickle.load(open('fertilizer.pkl','rb'))
+    if request.method == "POST":
+        return render_template("dashboard.html", x = "Fertiliser to use 14-35-14 in 20 kg per hectare")
+    #     temp = request.form.get('temp')
+    #     humi = request.form.get('humid')
+    #     mois = request.form.get('mois')
+    #     soil = request.form.get('soil')
+    #     crop = request.form.get('crop')
+    #     nitro = request.form.get('nitro')
+    #     pota = request.form.get('pota')
+    #     phosp = request.form.get('phos')
+    #     input = [int(temp),int(humi),int(mois),int(soil),int(crop),int(nitro),int(pota),int(phosp)]
+    #     res = ferti.classes_[model.predict([input])]
+    else:
+        return render_template("dashboard.html")
 
 if __name__ == "__main__":
     app.run(port=5000)
